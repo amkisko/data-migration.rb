@@ -13,7 +13,17 @@ Sponsored by [Kisko Labs](https://www.kiskolabs.com).
 - Can be applied multiple times
 - Accompanied by ActiveJob for background and batch operations
 - Accompanied by ActiveRecord to control and audit migrations progress
-- Operator's responsibility to ensure data consistency, notifications, monitoring and quality of batch operations implementation
+- Operator's responsibility to ensure data consistency, notifications, monitoring and quality of implementation
+
+### Data migrations process
+
+1. Avoid implementing and running data migrations within schema migrations
+2. Data migrations should be planned beforehand, reserve time in the calendar
+3. Data migrations should be always controlled by operator
+4. Wrapping queries to transactions might lead to large memory consumption, unexpected exceptions and database unresponsiveness
+5. Large data migrations should have batching implemented which will lower memory consumption and database load
+6. Critical data migrations should be covered with tests, by finding consensus developers decide if migration is critical
+7. Before running critical data migrations, make sure that you have fresh backup of the database and you are ready to rollback in case of failure
 
 ## Installation
 
@@ -97,10 +107,9 @@ end
 
 ## Limitations & explanations
 
-- Gem patches `ActiveRecord::DataMigration`
 - ActiveRecord migrations generator is used to generate data migration files
-- Data migrations are not reversible, it is developer's responsibility to ensure that data migration is idempotent
-- Keep migrations logic idempotent and stable, e.g. by checking uniqueness of created/updated records
+- Data migrations are not reversible, it is operator's responsibility to ensure that data migration has correct effect
+- Keep migrations logic stable and predictable, e.g. by checking uniqueness of created/updated records
 
 ## Contributing
 
