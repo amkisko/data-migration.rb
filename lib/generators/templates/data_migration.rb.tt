@@ -1,0 +1,26 @@
+# USAGE: within remote console run one of the following commands
+# - rails db:migrate:data <%= migration_number %>_<%= migration_file_name %>
+# - DataMigration.perform_now("<%= migration_number %>_<%= migration_file_name %>")
+# - DataMigration.perform_later("<%= migration_number %>_<%= migration_file_name %>")
+# - DataMigration.prepare("<%= migration_number %>_<%= migration_file_name %>", pause: 1.minute, jobs_limit: 2).perform_later
+
+class <%= migration_class_name %>
+  def perform(**kwargs)
+
+  end
+end
+<%- if DataMigration.config.generate_spec? %>
+# TESTING:
+# - bin/rspec <%= DataMigration.config.data_migrations_path %>/<%= migration_number %>_<%= migration_file_name %>.rb
+if Rails.env.test? && Object.const_defined?(:RSpec)
+  require "rails_helper"
+
+  RSpec.describe <%= migration_class_name %>, type: :data_migration do
+    subject(:perform) { described_class.new.perform }
+
+    it do
+      expect { perform }.not_to raise_error
+    end
+  end
+end
+<%- end %>
