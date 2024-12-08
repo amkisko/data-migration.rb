@@ -1,6 +1,6 @@
 # data-migration.rb
 
-[![Gem Version](https://badge.fury.io/rb/data-migration.svg)](https://badge.fury.io/rb/data-migration) [![Test Status](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml/badge.svg)](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml) [![codecov](https://codecov.io/gh/amkisko/data-migration.rb/graph/badge.svg?token=57R6OHOJDQ)](https://codecov.io/gh/amkisko/data-migration.rb)
+[![Gem Version](https://badge.fury.io/rb/data-migration.svg)](https://badge.fury.io/rb/data-migration) [![Test Status](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml/badge.svg)](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml) [![codecov](https://codecov.io/gh/amkisko/data-migration.rb/graph/badge.svg?token=881AFPL643)](https://codecov.io/gh/amkisko/data-migration.rb)
 
 Data migrations kit for ActiveRecord and ActiveJob.
 
