@@ -4,8 +4,8 @@ class CreateUsers
   end
 end
 
-if Object.const_defined?(:RSpec)
-  require "spec_helper"
+if ENV["RUN_MIGRATION_TESTS"] && Object.const_defined?(:RSpec)
+  require "rails_helper"
 
   RSpec.describe CreateUsers, type: :data_migration do
     subject(:perform) { described_class.new.perform }
