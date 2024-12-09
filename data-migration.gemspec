@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name = "data-migration"
-  gem.version = File.read(File.expand_path("../lib/data_migration.rb", __FILE__)).match(/VERSION\s*=\s*"(.*?)"/)[1]
+  gem.version = File.read(File.expand_path("../lib/data-migration.rb", __FILE__)).match(/VERSION\s*=\s*"(.*?)"/)[1]
 
   repository_url = "https://github.com/amkisko/data-migration.rb"
   root_files = %w[CHANGELOG.md LICENSE.md README.md]

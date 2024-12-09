@@ -1,6 +1,6 @@
 require "active_record"
 
-require "data_migration"
+require "data-migration"
 
 require "support/rails_helpers"
 

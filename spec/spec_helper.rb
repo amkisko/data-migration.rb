@@ -9,7 +9,7 @@ SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 
 require "active_record"
 
-require "data_migration"
+require "data-migration"
 
 Dir[File.expand_path("support/**/*.rb", __dir__)].each { |f| require_relative f }
 
