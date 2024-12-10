@@ -2,6 +2,7 @@ require "active_record"
 
 module DataMigration
   class JobConcurrencyLimitError < StandardError; end
+
   class JobConflictError < StandardError; end
 
   def self.tasks_table_name
@@ -18,16 +19,21 @@ module DataMigration
       self.jobs_limit ||= DataMigration.config.default_jobs_limit
     end
 
-    enum :status, {
+    STATUS_OPTIONS = {
       started: "started",
       performing: "performing",
       paused: "paused",
       completed: "completed"
     }
+    if ActiveRecord::VERSION::MAJOR >= 7
+      enum :status, STATUS_OPTIONS
+    else
+      enum status: STATUS_OPTIONS
+    end
 
     validates :name, presence: true
-    validates :pause_minutes, numericality: { greater_than_or_equal_to: 0, only_integer: true }, if: -> { pause_minutes.present? }
-    validates :jobs_limit, numericality: { greater_than_or_equal_to: 0, only_integer: true }, if: -> { jobs_limit.present? }
+    validates :pause_minutes, numericality: {greater_than_or_equal_to: 0, only_integer: true}, if: -> { pause_minutes.present? }
+    validates :jobs_limit, numericality: {greater_than_or_equal_to: 0, only_integer: true}, if: -> { jobs_limit.present? }
     validate :file_should_exist
 
     after_save do
@@ -50,7 +56,7 @@ module DataMigration
     end
 
     def self.perform_now(name, **kwargs)
-      create!(name:).perform_now(**kwargs)
+      create!(name: name).perform_now(**kwargs)
     end
 
     def perform_now(**perform_args)
@@ -59,7 +65,7 @@ module DataMigration
     end
 
     def self.perform_later(name, **kwargs)
-      create!(name:).perform_later(**kwargs)
+      create!(name: name).perform_later(**kwargs)
     end
 
     def perform_later(**perform_args)
@@ -68,7 +74,7 @@ module DataMigration
     end
 
     def self.prepare(name, pause_minutes: nil, jobs_limit: nil)
-      create!(name:, pause_minutes:, jobs_limit:)
+      create!(name: name, pause_minutes: pause_minutes, jobs_limit: jobs_limit)
     end
 
     def self.root_path

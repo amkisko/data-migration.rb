@@ -4,6 +4,6 @@ class CreateBatchUsers
 
     User.find_or_create_by(email: "test_#{index}@example.com")
 
-    enqueue(index: index + 1, background:)
+    enqueue(index: index + 1, background: background)
   end
 end

@@ -35,7 +35,7 @@ module DataMigration
 
     attr_writer :operator_resolver
     def operator_resolver(&block)
-      if block_given?
+      if block.present?
         @operator_resolver = block
       else
         @operator_resolver ||= -> do
@@ -50,7 +50,7 @@ module DataMigration
 
     attr_writer :monitoring_context
     def monitoring_context(&block)
-      if block_given?
+      if block.present?
         @monitoring_context = block
       else
         @monitoring_context ||= ->(migration) do

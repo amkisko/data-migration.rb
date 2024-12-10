@@ -18,7 +18,7 @@ module DataMigration
         return
       end
 
-      task.job_check_in!(job_id, job_args:, job_kwargs:)
+      task.job_check_in!(job_id, job_args: job_args, job_kwargs: job_kwargs)
 
       require migration_path
       klass_name = migration_name.gsub(/^[0-9_]+/, "").camelize

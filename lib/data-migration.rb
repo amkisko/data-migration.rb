@@ -3,7 +3,7 @@ require "data_migration/job"
 require "data_migration/task"
 
 module DataMigration
-  VERSION = "1.1.0".freeze
+  VERSION = "1.2.0".freeze
 
   module_function
 
@@ -17,7 +17,7 @@ module DataMigration
 
   def notify(message, context: {})
     if Object.const_defined?(:ActionReporter)
-      ActionReporter.notify(message, context:)
+      ActionReporter.notify(message, context: context.presence || {})
     elsif Object.const_defined?(:Rails)
       Rails.logger.info("#{message} #{context.inspect}")
     end
