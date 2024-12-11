@@ -39,24 +39,30 @@ Using RubyGems:
 gem install data-migration
 ```
 
-## Gemfile
+### Gemfile
 
 ```ruby
 gem "data-migration"
 ```
 
-## Usage
-
-### Run data migrations
+### Data migration tasks table
 
 ```sh
-bin/rails db:migrate:data 20241207120000_create_users
+bin/rails g data_migration:install data_migration_tasks
 ```
+
+## Usage
 
 ### Generate data migration job
 
 ```sh
 bin/rails g data_migration create_users
+```
+
+### Run data migrations
+
+```sh
+bin/rails db:migrate:data 20241207120000_create_users
 ```
 
 ## Configuration

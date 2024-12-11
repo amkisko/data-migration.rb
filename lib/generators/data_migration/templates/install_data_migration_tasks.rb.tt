@@ -1,4 +1,8 @@
 class <%= migration_class_name %> < <%= migration_parent %>
+  <% if table_exists %>
+    # Current columns: "<%= table_columns.map(&:name).join("\", \"") %>"
+  <% end %>
+
   def self.up
     create_table :<%= DataMigration.tasks_table_name %>, force: true do |t|
       t.string "name", null: false

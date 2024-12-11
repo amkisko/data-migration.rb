@@ -1,8 +1,8 @@
 require "spec_helper"
 
-require "generators/install_generator"
+require "generators/data_migration/install_generator"
 
-describe InstallGenerator, type: :generator do
+describe DataMigration::Generators::InstallGenerator, type: :generator do
   include FileUtils
 
   subject(:generator) { described_class.start params }

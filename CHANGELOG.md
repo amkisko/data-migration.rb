@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.3.0
+
+- Fix data migration tasks table generator
+- Update README with better examples
+
 ## 1.2.0
 
 - Wrap Task.status enum with ActiveRecord version check
