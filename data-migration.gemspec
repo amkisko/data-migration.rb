@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.platform = Gem::Platform::RUBY
 
   gem.authors = ["Andrei Makarov"]
-  gem.email = ["andrei@kiskolabs.com"]
+  gem.email = ["contact@kiskolabs.com"]
   gem.homepage = repository_url
   gem.summary = "Data migrations kit for ActiveRecord and ActiveJob"
   gem.description = gem.summary
