@@ -42,4 +42,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "simplecov", "~> 0.21"
   gem.add_development_dependency "simplecov-cobertura", "~> 2"
   gem.add_development_dependency "sqlite3", "~> 2.4"
+  gem.add_development_dependency "rbs", "~> 3.0"
+  gem.add_development_dependency "standard", "~> 1.0"
+  gem.add_development_dependency "appraisal", "~> 2.4"
 end
