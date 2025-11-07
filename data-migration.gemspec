@@ -40,7 +40,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec_junit_formatter", "~> 0.6"
   gem.add_development_dependency "simplecov", "~> 0.22"
   gem.add_development_dependency "simplecov-cobertura", "~> 3"
-  gem.add_development_dependency "sqlite3", "~> 2.4"
   gem.add_development_dependency "rbs", "~> 3"
   gem.add_development_dependency "standard", "~> 1"
   gem.add_development_dependency "appraisal", "~> 2"

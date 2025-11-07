@@ -3,6 +3,7 @@ appraise "rails6" do
   gem "activejob", "~> 6.1"
   gem "activerecord", "~> 6.1"
   gem "activesupport", "~> 6.1"
+  gem "sqlite3", "~> 1.4"
 end
 
 appraise "rails72" do
@@ -10,6 +11,7 @@ appraise "rails72" do
   gem "activejob", "~> 7.2"
   gem "activerecord", "~> 7.2"
   gem "activesupport", "~> 7.2"
+  gem "sqlite3", "~> 2.4"
 end
 
 appraise "rails8ruby34" do
@@ -18,6 +20,7 @@ appraise "rails8ruby34" do
   gem "activejob", "~> 8.1"
   gem "activerecord", "~> 8.1"
   gem "activesupport", "~> 8.1"
+  gem "sqlite3", "~> 2.4"
 end
 
 appraise "rails8truffleruby" do
@@ -27,5 +30,6 @@ appraise "rails8truffleruby" do
   gem "activejob", "~> 8.1"
   gem "activerecord", "~> 8.1"
   gem "activesupport", "~> 8.1"
+  gem "sqlite3", "~> 2.4"
 end
 
