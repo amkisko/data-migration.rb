@@ -82,7 +82,9 @@ describe DataMigration::Config do
   it "has default monitoring context" do
     expect(config.monitoring_context).to be_a Proc
 
-    expect(Rails.logger).to receive(:info).with("Data migration context: {:data_migration_name=>\"test\", :data_migration_id=>1, :data_migration_operator_id=>2}")
+    expect(Rails.logger).to receive(:info).with(
+      match(/Data migration context: \{.*data_migration_name.*"test".*data_migration_id.*1.*data_migration_operator_id.*2.*\}/)
+    )
     expect { config.monitoring_context.call(migration) }.not_to raise_error
   end
 

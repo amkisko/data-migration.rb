@@ -7,6 +7,9 @@ end
 require "simplecov-cobertura"
 SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
 
+# Fix for Rails 6.1 compatibility: require Logger before ActiveRecord
+# to avoid "uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger" error
+require "logger"
 require "active_record"
 
 require "data-migration"
