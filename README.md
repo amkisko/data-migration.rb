@@ -137,7 +137,7 @@ Contribution policy:
 
 ## Publishing
 
-Prefer using script `usr/bin/release.sh`, it will ensure that repository is synced and after publishing gem will create a tag.
+Prefer using script `usr/bin/release.rb`, it will ensure that repository is synced and after publishing gem will create a tag.
 
 ```sh
 GEM_VERSION=$(grep -Eo "VERSION\s*=\s*\".+\"" lib/data-migration.rb  | grep -Eo "[0-9.]{5,}")
