@@ -26,7 +26,6 @@ AllCops:
   Exclude:
     - bin/**/*
     - db/**/*
-
     - vendor/**/*
     - tmp/**/*
     - log/**/*
