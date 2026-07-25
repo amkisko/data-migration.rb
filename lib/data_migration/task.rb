@@ -25,11 +25,7 @@ module DataMigration
       paused: "paused",
       completed: "completed"
     }
-    if ActiveRecord::VERSION::MAJOR >= 7
-      enum :status, STATUS_OPTIONS
-    else
-      enum status: STATUS_OPTIONS
-    end
+    enum :status, STATUS_OPTIONS
 
     validates :name, presence: true
     validates :pause_minutes, numericality: {greater_than_or_equal_to: 0, only_integer: true}, if: -> { pause_minutes.present? }

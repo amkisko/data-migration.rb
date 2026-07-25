@@ -20,7 +20,7 @@ describe DataMigration::Config do
   let(:audited) do
     Class.new do
       def store
-        { audited_user: User.new(id: 4) }
+        {audited_user: User.new(id: 4)}
       end
     end.new
   end

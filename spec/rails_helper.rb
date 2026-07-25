@@ -12,7 +12,7 @@ RSpec.configure do |config|
     load File.expand_path("../fixtures/schema.rb", __FILE__)
   end
 
-  config.before(:each) do
+  config.before do
     tables = ActiveRecord::Base.connection.tables
     tables.each do |table|
       ActiveRecord::Base.connection.execute("DELETE FROM #{table}")

@@ -12,7 +12,7 @@ describe DataMigration::Generators::InstallGenerator, type: :generator do
   let(:migration_name) { "data_migration_tasks" }
   let(:params) { [migration_name] }
   let(:created_files) { Dir["#{root_path}/db/migrate/*_#{migration_name}.rb"] }
-  let(:migration_content) { File.readlines(created_files.first).reject(&:blank?).map(&:strip) }
+  let(:migration_content) { File.readlines(created_files.first).compact_blank.map(&:strip) }
 
   before do
     mkdir_p root_path.to_s

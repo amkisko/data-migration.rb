@@ -20,7 +20,7 @@ module DataMigration
 
     attr_writer :generate_spec
     def generate_spec?
-      @generate_spec.nil? ? true : @generate_spec
+      @generate_spec.nil? || @generate_spec
     end
 
     attr_writer :job_class

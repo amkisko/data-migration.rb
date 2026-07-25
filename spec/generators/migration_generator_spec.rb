@@ -12,7 +12,7 @@ describe DataMigrationGenerator, type: :generator do
   let(:migration_name) { "create_users" }
   let(:params) { [migration_name] }
   let(:created_files) { Dir["#{root_path}/db/data_migrations/*_#{migration_name}.rb"] }
-  let(:migration_content) { File.readlines(created_files.first).reject(&:blank?).map(&:strip) }
+  let(:migration_content) { File.readlines(created_files.first).compact_blank.map(&:strip) }
 
   before do
     mkdir_p root_path.to_s

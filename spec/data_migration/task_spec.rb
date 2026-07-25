@@ -68,7 +68,7 @@ describe DataMigration::Task do
 
   describe "#perform_now" do
     it "calls the job class with the task and arguments" do
-      kwargs = { foo: "bar" }
+      kwargs = {foo: "bar"}
       expect(DataMigration::Job).to receive(:perform_now).with(task.id, **kwargs)
       task.perform_now(**kwargs)
     end
@@ -76,7 +76,7 @@ describe DataMigration::Task do
 
   describe "#perform_later" do
     it "calls the job class with the task and arguments" do
-      kwargs = { foo: "bar" }
+      kwargs = {foo: "bar"}
       expect(DataMigration::Job).to receive(:perform_later).with(task.id, **kwargs)
       task.perform_later(**kwargs)
     end
@@ -95,7 +95,7 @@ describe DataMigration::Task do
 
     context "when chained with perform_now" do
       it "calls the job class with the task and arguments" do
-        perform_args = { "foo" => "bar" }
+        perform_args = {"foo" => "bar"}
         expect(DataMigration::Job).to receive(:perform_now).with(task.id, **perform_args)
         task.perform_now(**perform_args)
         expect(task.kwargs).to eq(perform_args)
@@ -104,7 +104,7 @@ describe DataMigration::Task do
   end
 
   describe "#job_check_in!" do
-    subject(:job_check_in!) { task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: { bar: "baz" }) }
+    subject(:job_check_in!) { task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: {bar: "baz"}) }
 
     let(:job_id) { "123" }
 
@@ -114,7 +114,7 @@ describe DataMigration::Task do
 
     context "when there is a job with the same id" do
       before do
-        task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: { bar: "baz" })
+        task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: {bar: "baz"})
       end
 
       it "raises a JobConflictError" do
@@ -125,7 +125,7 @@ describe DataMigration::Task do
     context "when default_jobs_limit is 1 and there are jobs" do
       before do
         DataMigration.config.default_jobs_limit = 1
-        task.job_check_in!("321", job_args: ["foo"], job_kwargs: { bar: "baz" })
+        task.job_check_in!("321", job_args: ["foo"], job_kwargs: {bar: "baz"})
       end
 
       it "raises a JobConcurrencyLimitError" do
@@ -141,7 +141,7 @@ describe DataMigration::Task do
 
     before do
       task.save!
-      task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: { bar: "baz" })
+      task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: {bar: "baz"})
     end
 
     it "removes the job from the current_jobs hash" do

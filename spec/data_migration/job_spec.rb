@@ -61,14 +61,14 @@ describe DataMigration::Job do
       let(:migration_name) { "20241206200114_create_batch_users" }
 
       it "runs the migration in foreground" do
-        expect { perform }.to change { User.count }.by(3)
+        expect { perform }.to change(User, :count).by(3)
         expect(task.reload.current_jobs.count).to eq(0)
         expect(task.status).to eq("completed")
-        expect(User.pluck(:email)).to match_array(["test@example.com", "test_1@example.com", "test_2@example.com"])
+        expect(User.pluck(:email)).to contain_exactly("test@example.com", "test_1@example.com", "test_2@example.com")
       end
 
       context "when background is true" do
-        let(:job_kwargs) { { background: true } }
+        let(:job_kwargs) { {background: true} }
 
         before do
           operator
@@ -85,7 +85,7 @@ describe DataMigration::Job do
           expect(task.reload.current_jobs.count).to eq(0)
           expect(task.kwargs).to eq({})
 
-          expect { job.perform(task.id, index: 3, background: true) }.to change(User, :count).by(0)
+          expect { job.perform(task.id, index: 3, background: true) }.not_to change(User, :count)
           expect(task.reload.status).to eq("completed")
           expect(task.reload.current_jobs.count).to eq(0)
           expect(task.kwargs).to eq({})

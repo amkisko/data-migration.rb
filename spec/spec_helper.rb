@@ -30,7 +30,7 @@ RSpec.configure do |config|
     load File.expand_path("../fixtures/schema.rb", __FILE__)
   end
 
-  config.before(:each) do
+  config.before do
     tables = ActiveRecord::Base.connection.tables
     tables.each do |table|
       ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
@@ -48,4 +48,3 @@ Polyrun::RSpec.install_example_prosopite!
 if %w[1 true yes].include?(ENV["POLYRUN_SPEC_QUALITY"]&.to_s&.downcase)
   Polyrun::RSpec.install_spec_quality!
 end
-
