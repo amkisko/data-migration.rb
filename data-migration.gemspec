@@ -26,7 +26,7 @@ Gem::Specification.new do |gem|
   gem.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
 
-  gem.required_ruby_version = ">= 3"
+  gem.required_ruby_version = ">= 3.4"
   gem.require_paths = ["lib"]
 
   gem.add_dependency "rails", "> 5"
@@ -34,8 +34,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency "activerecord", "> 5"
   gem.add_dependency "activesupport", "> 5"
 
-  gem.add_development_dependency "bundler", "~> 2"
+  gem.add_development_dependency "bundler", ">= 2"
   gem.add_development_dependency "rspec", "~> 3"
+  gem.add_development_dependency "polyrun", ">= 2.2.0"
+  gem.add_development_dependency "prosopite", "~> 2.0"
   gem.add_development_dependency "webmock", "~> 3"
   gem.add_development_dependency "rspec_junit_formatter", "~> 0.6"
   gem.add_development_dependency "simplecov", "~> 0.22"

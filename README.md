@@ -1,14 +1,8 @@
 # data-migration.rb
 
-[![Gem Version](https://badge.fury.io/rb/data-migration.svg)](https://badge.fury.io/rb/data-migration) [![Test Status](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml/badge.svg)](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml) [![codecov](https://codecov.io/gh/amkisko/data-migration.rb/graph/badge.svg?token=881AFPL643)](https://codecov.io/gh/amkisko/data-migration.rb)
+[![Gem Version](https://badge.fury.io/rb/data-migration.svg)](https://badge.fury.io/rb/data-migration) [![Test Status](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml/badge.svg)](https://github.com/amkisko/data-migration.rb/actions/workflows/test.yml) [![codecov](https://codecov.io/gh/amkisko/data-migration.rb/graph/badge.svg?token=881AFPL643)](https://app.codecov.io/github/amkisko/data-migration.rb)
 
 Data migrations kit for ActiveRecord and ActiveJob.
-
-Sponsored by [Kisko Labs](https://www.kiskolabs.com).
-
-<a href="https://www.kiskolabs.com">
-  <img src="kisko.svg" width="200" alt="Sponsored by Kisko Labs" />
-</a>
 
 
 ## Data migrations concept
@@ -147,6 +141,27 @@ gem push data-migration-$GEM_VERSION.gem
 git tag $GEM_VERSION && git push --tags && gh release create $GEM_VERSION --generate-notes
 ```
 
+## Links
+
+- [GitHub](https://github.com/amkisko/data-migration.rb)
+- [GitLab](https://gitlab.com/amkisko/data-migration.rb)
+- [RubyGems](https://rubygems.org/gems/data-migration)
+- [Versions Atom](https://rubygems.org/gems/data-migration/versions.atom) (feed id `8154436273761`)
+- [libraries.io](https://libraries.io/rubygems/data-migration)
+- [Deps.dev](https://deps.dev/rubygems/data-migration)
+- [SonarCloud](https://sonarcloud.io/project/overview?id=amkisko_data-migration.rb)
+- [Snyk](https://snyk.io/test/github/amkisko/data-migration.rb)
+- [Codecov](https://app.codecov.io/github/amkisko/data-migration.rb)
+- [OpenSSF Scorecard](https://scorecard.dev/viewer/?uri=github.com/amkisko/data-migration.rb)
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Sponsors
+
+Sponsored by [Kisko Labs](https://www.kiskolabs.com).
+
+<a href="https://www.kiskolabs.com">
+  <img src="kisko.svg" width="200" alt="Sponsored by Kisko Labs" />
+</a>

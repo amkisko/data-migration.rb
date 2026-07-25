@@ -1,15 +1,16 @@
-require "simplecov"
-require "simplecov-cobertura"
-require "simplecov_json_formatter"
+polyrun_cov_measure =
+  ENV["POLYRUN_COVERAGE_DISABLE"] != "1" &&
+  %w[1 true yes].include?(ENV["POLYRUN_COVERAGE"]&.to_s&.downcase)
 
-SimpleCov.start do
-  track_files "{lib,app}/**/*.rb"
-  add_filter "/lib/tasks/"
-  formatter SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::CoberturaFormatter,
-    SimpleCov::Formatter::JSONFormatter
-  ])
+if polyrun_cov_measure
+  require "coverage"
+  branch = %w[1 true yes].include?(ENV["POLYRUN_COVERAGE_BRANCHES"]&.to_s&.downcase)
+  ::Coverage.start(lines: true, branches: branch)
+end
+
+if polyrun_cov_measure
+  require "polyrun/coverage/rails"
+  Polyrun::Coverage::Rails.start!(root: File.expand_path("..", __dir__))
 end
 
 # Fix for Rails 6.1 compatibility: require Logger before ActiveRecord
@@ -36,3 +37,15 @@ RSpec.configure do |config|
     end
   end
 end
+require "polyrun/rspec"
+Polyrun::RSpec.install_sharded_formatter_compat!
+Polyrun::RSpec.install_failure_fragments!
+Polyrun::RSpec.install_worker_ping!
+Polyrun::RSpec.install_example_debug!
+Polyrun::RSpec.install_example_rails_logging!
+Polyrun::RSpec.install_example_timeout!
+Polyrun::RSpec.install_example_prosopite!
+if %w[1 true yes].include?(ENV["POLYRUN_SPEC_QUALITY"]&.to_s&.downcase)
+  Polyrun::RSpec.install_spec_quality!
+end
+

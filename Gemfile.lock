@@ -138,7 +138,9 @@ GEM
     marcel (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (5.26.0)
+    minitest (6.0.6)
+      drb (~> 2.0)
+      prism (~> 1.5)
     net-imap (0.5.12)
       date
       net-protocol
@@ -150,6 +152,9 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nio4r (2.7.5-java)
+    nokogiri (1.18.10)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.18.10-java)
@@ -160,10 +165,12 @@ GEM
     parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
+    polyrun (2.2.0)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
     prism (1.6.0)
+    prosopite (2.2.0)
     psych (5.2.6)
       date
       stringio
@@ -323,7 +330,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
-    unicode-emoji (4.1.0)
+    unicode-emoji (4.2.0)
     uri (1.1.1)
     useragent (0.16.11)
     webmock (3.26.1)
@@ -346,8 +353,10 @@ PLATFORMS
 
 DEPENDENCIES
   appraisal (~> 2)
-  bundler (~> 2)
+  bundler (>= 2)
   data-migration!
+  polyrun (>= 2.2.0)
+  prosopite (~> 2.0)
   rbs (~> 3)
   rspec (~> 3)
   rspec_junit_formatter (~> 0.6)
@@ -365,4 +374,4 @@ DEPENDENCIES
   webmock (~> 3)
 
 BUNDLED WITH
-   2.7.2
+  4.0.16
