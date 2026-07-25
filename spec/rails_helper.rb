@@ -13,7 +13,7 @@ RSpec.configure do |config|
   end
 
   config.before do
-    stub_const("Rails", Class.new)
+    stub_const("Rails", Class.new) unless self.class.metadata[:type] == :generator
     tables = ActiveRecord::Base.connection.tables
     tables.each do |table|
       ActiveRecord::Base.connection.execute("DELETE FROM #{table}")

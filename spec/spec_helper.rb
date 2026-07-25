@@ -32,7 +32,8 @@ RSpec.configure do |config|
 
   config.before do
     # Suite uses ActiveRecord only; specs stub Rails APIs via this constant.
-    stub_const("Rails", Class.new)
+    # Generator examples need the real Rails::Generators hierarchy.
+    stub_const("Rails", Class.new) unless self.class.metadata[:type] == :generator
     tables = ActiveRecord::Base.connection.tables
     tables.each do |table|
       ActiveRecord::Base.connection.execute("DELETE FROM #{table}")

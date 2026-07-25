@@ -17,7 +17,8 @@ describe DataMigration::Job do
 
   it "runs rspec spec/fixtures/data_migrations/20241206200111_create_users.rb" do
     output = `RUN_MIGRATION_TESTS=1 rspec #{data_migrations_full_path}/#{migration_name}.rb`
-    expect(output).to include("1 example, 0 failures")
+    expect($?).to be_success, output
+    expect(output).to include("0 failures")
   end
 
   describe "#perform" do
