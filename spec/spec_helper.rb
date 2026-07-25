@@ -31,6 +31,8 @@ RSpec.configure do |config|
   end
 
   config.before do
+    # Suite uses ActiveRecord only; specs stub Rails APIs via this constant.
+    stub_const("Rails", Class.new)
     tables = ActiveRecord::Base.connection.tables
     tables.each do |table|
       ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
