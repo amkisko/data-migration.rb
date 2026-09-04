@@ -45,6 +45,6 @@ Procedural: RFC 0001 (Proposed).
 
 Informational: RFC 0002 (positioning).
 
-Standards Track, Stable: RFC 0003 (task status), RFC 0004 (operator run path), RFC 0005 (jobs and batching).
+Standards Track, Stable: RFC 0003 (task status), RFC 0004 (operator run path), RFC 0005 (jobs and batching), RFC 0006 (failed task cleanup).
 
 A public API, CLI, file, or protocol change needs a new Standards Track RFC.
