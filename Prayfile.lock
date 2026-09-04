@@ -1,7 +1,7 @@
 prayfile_lock = "1"
 spec = "0.1"
-generated_by = "pray 1.9.1"
-manifest_hash = "sha256:a14acf7254b9eb40624d74bd75a4f1b95271002b9a55d74eefbc393e702cca59"
+generated_by = "pray 1.10.0"
+manifest_hash = "sha256:1ed442e1f200ff3f708e9fb99051f5f06117f67d4d070a89388a580d9ca21d60"
 
 [[source]]
 name = "amkisko"
@@ -442,3 +442,165 @@ package = "amkisko/collaboration-workflow"
 export = "collaboration-workflow"
 source_checksum = "sha256:f12fa3ba5d786c3b32e8fc25e071ea9d34bb3e1d6236561e50c7b202269b40dd"
 silenced = false
+
+[[provisioned]]
+path = ".agents/skills/changelog-update/SKILL.md"
+content_hash = "sha256:c05f198a0370b8ca1bf8c5b3df5f9d5ce737722364dab29a0e8e8fc9443854da"
+package = "amkisko/changelog-update"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/changelog-update/changelog-update.md"
+content_hash = "sha256:83cbbcdbea50ec78de5b79b55a628f4ba2968604ff1680e2782ee3c8ef6bb72b"
+package = "amkisko/changelog-update"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/claims-audit/SKILL.md"
+content_hash = "sha256:d9b52c3a58a5f141da9342ee867116267800f397df39d4f80a86c6877cddf5e5"
+package = "amkisko/claims-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/claims-audit/claims-audit.md"
+content_hash = "sha256:8e7f9b3d98f6586ed3a4bbdf08eae554e43540ee1b9cccc6982221cb930e5b2e"
+package = "amkisko/claims-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/claims-audit/references/evidence-bundle.md"
+content_hash = "sha256:6e0b4f175bd51c4d9fb610364fb76de5dc2a7caffe8600db0294b906d18665bb"
+package = "amkisko/claims-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/dependency-audit/SKILL.md"
+content_hash = "sha256:18be597c227be8b246ef57fb50daf92a6763b06cccc1a9eb202d84eab424ae24"
+package = "amkisko/dependency-policy"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/dependency-audit/references/dependency-audit.md"
+content_hash = "sha256:e475d08a7a24a16d9cf6381a114bbeb293832af64a8cad1e8c71a85ad4f71bc0"
+package = "amkisko/dependency-policy"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/dependency-audit/references/libyears.md"
+content_hash = "sha256:9c62bedc921cd25a93f363f2dedb9e6b9bf3b3b1593094ec6591ef16cb7b28fa"
+package = "amkisko/dependency-policy"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/dependency-audit/references/selection-and-alteration.md"
+content_hash = "sha256:a3925696bdf9bf664eac662515b192a040406b0ffa0aa50940b67d4a4c2196d2"
+package = "amkisko/dependency-policy"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/SKILL.md"
+content_hash = "sha256:a71a20604a45308a841de4bfea6318bd3a622b75fcdf6750faaffcb0fc7e4215"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/contracts.md"
+content_hash = "sha256:d7cc873d8e2aab9c79adb997253b0ee902abca8c102a6c1274c25325d6baa9e5"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/engineering-audit.md"
+content_hash = "sha256:42f62da7ea5b045daf635d7f7dbc18c5806caa4668b6d6fcbbfbe4bee0b6b00b"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/learned-systems.md"
+content_hash = "sha256:ef72b3edff533b45ae27a957d276c7f08c670f5a0b15a6c2a319b99ea062ae7e"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/observability.md"
+content_hash = "sha256:c743c1c0da77b0de175eba4ad777b56fdbfaf493bd1b03b6eb5eb903f09ea731"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/performance.md"
+content_hash = "sha256:f22fb54c95a4920501b0d65bcb96a390dfa66fc595c8963fa6eb1c31cef8b3ab"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/privacy.md"
+content_hash = "sha256:ac36296267d8cb2db8a362c30dd98e81fa90012f4c5c46c85538422cd8c5e074"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/product-surface.md"
+content_hash = "sha256:7ecf8ae3db1e68feebc80f67683b866839da501c993e09d06abf07cd2f757af2"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/resource-and-budget.md"
+content_hash = "sha256:76a0994349754ec42bd1403e54b4924696f9130f2a25e8d7350f70b9ac8e4bde"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/security.md"
+content_hash = "sha256:ec7912d0fc337b87ec12a1e3faf53c7490d9d1e599ec6d900535564a7bf7d457"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/engineering-audit/trace-and-identification.md"
+content_hash = "sha256:40d944f97538810e0213eea2abdfd170b66bd1165885f51923e38a2d8e5b45ce"
+package = "amkisko/engineering-audit"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/rfc-process/SKILL.md"
+content_hash = "sha256:53b254458e3f15aae7b2bcb1f7c5eadf5d80fa11cb65708301dd487699b19a7e"
+package = "amkisko/rfc-process"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/rfc-process/references/template.md"
+content_hash = "sha256:93f394732a6d6f508abe828de5e32aea49ab58738f312d7626bf4ff23fc97b99"
+package = "amkisko/rfc-process"
+export = "skill"
+
+[[provisioned]]
+path = ".agents/skills/rfc-process/rfc-process.md"
+content_hash = "sha256:bce6c5bfee557049c1c3b2a5cb9f013f0d2203d5e50e687393649eec0dbd3a68"
+package = "amkisko/rfc-process"
+export = "skill"
+
+[[provisioned]]
+path = "CODE_OF_CONDUCT.md"
+content_hash = "sha256:6107f4344947fcb26add770dcdaa308cde46a71f28f27678642574522e3f57c3"
+package = "amkisko/community-code-of-conduct"
+export = "code-of-conduct"
+
+[[provisioned]]
+path = "CONTRIBUTING.md"
+content_hash = "sha256:22fc3579135ee77ee76f1250496ecb56be08cc8e1ccb7529834301ef2bf5d9fc"
+package = "amkisko/community-contributing"
+export = "contributing"
+
+[[provisioned]]
+path = "GOVERNANCE.md"
+content_hash = "sha256:4639dbce773214e8ae95f2c84c198075f6cf3062bd9796d3078552c9cfe59a46"
+package = "amkisko/community-governance"
+export = "governance"
+
+[[provisioned]]
+path = "SECURITY.md"
+content_hash = "sha256:d29b005e7465ef05c99cebd424b97ea868acf855609f95f1247441c46a761659"
+package = "amkisko/community-security"
+export = "security"

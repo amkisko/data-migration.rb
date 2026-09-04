@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Unreleased
+
+- Add `rfcs/` starter pack: process (RFC 0001), positioning (RFC 0002), and Standards Track design RFCs 0003–0005 for task status, operator run path, and jobs.
+
 ## 1.3.0
 
 - Fix data migration tasks table generator
