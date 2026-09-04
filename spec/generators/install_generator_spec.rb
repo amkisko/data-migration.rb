@@ -7,7 +7,7 @@ describe DataMigration::Generators::InstallGenerator, type: :generator do
 
   subject(:generator) { described_class.start params }
 
-  let(:root_path) { rails_root(File.expand_path("../../../tmp/rspec", __FILE__)) }
+  let(:root_path) { rails_root(File.expand_path("../../../tmp/rspec/#{Process.pid}", __FILE__)) }
 
   let(:migration_name) { "data_migration_tasks" }
   let(:params) { [migration_name] }

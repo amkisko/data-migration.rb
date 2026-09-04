@@ -7,7 +7,7 @@ describe DataMigrationGenerator, type: :generator do
 
   subject(:generator) { described_class.start params }
 
-  let(:root_path) { rails_root(File.expand_path("../../../tmp/rspec", __FILE__)) }
+  let(:root_path) { rails_root(File.expand_path("../../../tmp/rspec/#{Process.pid}", __FILE__)) }
 
   let(:migration_name) { "create_users" }
   let(:params) { [migration_name] }
@@ -36,7 +36,7 @@ describe DataMigrationGenerator, type: :generator do
 
   context "when generate_spec is false" do
     before do
-      DataMigration.config.generate_spec = false
+      allow(DataMigration.config).to receive(:generate_spec?).and_return(false)
     end
 
     it "does not add RSpec describe block" do

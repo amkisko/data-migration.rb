@@ -45,9 +45,7 @@ module RailsHelpers
 
   def rails_logger
     Class.new do
-      def info(message)
-        puts message
-      end
+      def info(message) = message
     end.new
   end
 end

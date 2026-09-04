@@ -1,4 +1,5 @@
 require "spec_helper"
+require "open3"
 
 describe DataMigration::Job do
   subject(:job) { DataMigration::Job.new }
@@ -16,9 +17,13 @@ describe DataMigration::Job do
   end
 
   it "runs rspec spec/fixtures/data_migrations/20241206200111_create_users.rb" do
-    output = `RUN_MIGRATION_TESTS=1 rspec #{data_migrations_full_path}/#{migration_name}.rb`
-    expect($?).to be_success, output
-    expect(output).to include("0 failures")
+    output, error_output, status = Open3.capture3(
+      {"RUN_MIGRATION_TESTS" => "1"},
+      "rspec",
+      "#{data_migrations_full_path}/#{migration_name}.rb"
+    )
+
+    expect(status).to be_success, output + error_output
   end
 
   describe "#perform" do

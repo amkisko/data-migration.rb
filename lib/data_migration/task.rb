@@ -99,7 +99,7 @@ module DataMigration
       raise DataMigration::JobConflictError, "#{user_title} already has job ##{job_id}" if current_jobs.key?(job_id)
       raise DataMigration::JobConcurrencyLimitError, "#{user_title} reached limit of #{jobs_limit} jobs" if jobs_limit.present? && current_jobs.size >= jobs_limit
 
-      self.current_jobs[job_id] = {
+      current_jobs[job_id] = {
         ts: Time.current,
         args: job_args,
         kwargs: job_kwargs
@@ -108,7 +108,7 @@ module DataMigration
     end
 
     def job_check_out!(job_id)
-      self.current_jobs.delete(job_id)
+      current_jobs.delete(job_id)
       save!
     end
 

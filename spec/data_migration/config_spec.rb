@@ -26,9 +26,7 @@ describe DataMigration::Config do
   end
   let(:logger) do
     Class.new do
-      def info(message)
-        puts message
-      end
+      def info(message) = message
     end.new
   end
   let(:other_user) do
