@@ -4,6 +4,7 @@
 
 Data migrations kit for ActiveRecord and ActiveJob.
 
+Design changes go through `rfcs/` (RFC 0001).
 
 ## Data migrations concept
 
