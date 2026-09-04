@@ -11,6 +11,7 @@
 - Serialize current_jobs updates by locking and reloading each task row.
 - Persist failed status and checkout in one task update.
 - Let checkout bypass migration-file validation after work has started.
+- Mark continuation dispatch errors as failed after the current job checks out.
 - Clear a migration class's pending enqueue request on every exit.
 - Keep completed_at for successful completion only.
 - Leave cancelled out until an operator cancellation operation exists.
@@ -21,6 +22,7 @@
 - RFC 0006 adds failed to the public task status contract.
 - Regression coverage includes foreground batching with one available job slot.
 - Regression coverage reproduced lost job slots from stale task instances and cleanup blocked by a missing migration file.
+- Regression coverage reproduced a queue error leaving a task performing without an active or scheduled job.
 
 ## Next
 

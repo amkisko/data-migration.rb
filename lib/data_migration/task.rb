@@ -23,6 +23,7 @@ module DataMigration
       started: "started",
       performing: "performing",
       paused: "paused",
+      failed: "failed",
       completed: "completed"
     }
     enum :status, STATUS_OPTIONS
@@ -45,6 +46,7 @@ module DataMigration
     scope :started, -> { where(status: :started) }
     scope :paused, -> { where(status: :paused) }
     scope :performing, -> { where(status: :performing) }
+    scope :failed, -> { where(status: :failed) }
     scope :completed, -> { where(status: :completed) }
 
     def self.job_class
@@ -94,22 +96,27 @@ module DataMigration
     end
 
     def job_check_in!(job_id, job_args: [], job_kwargs: {})
-      self.current_jobs ||= {}
+      with_lock do
+        self.current_jobs ||= {}
 
-      raise DataMigration::JobConflictError, "#{user_title} already has job ##{job_id}" if current_jobs.key?(job_id)
-      raise DataMigration::JobConcurrencyLimitError, "#{user_title} reached limit of #{jobs_limit} jobs" if jobs_limit.present? && current_jobs.size >= jobs_limit
+        raise DataMigration::JobConflictError, "#{user_title} already has job ##{job_id}" if current_jobs.key?(job_id)
+        raise DataMigration::JobConcurrencyLimitError, "#{user_title} reached limit of #{jobs_limit} jobs" if jobs_limit.present? && current_jobs.size >= jobs_limit
 
-      current_jobs[job_id] = {
-        ts: Time.current,
-        args: job_args,
-        kwargs: job_kwargs
-      }
-      save!
+        current_jobs[job_id] = {
+          ts: Time.current,
+          args: job_args,
+          kwargs: job_kwargs
+        }
+        save!
+      end
     end
 
-    def job_check_out!(job_id)
-      current_jobs.delete(job_id)
-      save!
+    def job_check_out!(job_id, status: nil)
+      with_lock do
+        current_jobs.delete(job_id)
+        self.status = status if status
+        save!(validate: false)
+      end
     end
 
     def user_title

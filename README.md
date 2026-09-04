@@ -4,6 +4,8 @@
 
 Data migrations kit for ActiveRecord and ActiveJob.
 
+Requires Ruby 3.4 or newer.
+
 Design changes go through `rfcs/` (RFC 0001).
 
 ## Data migrations concept
@@ -116,6 +118,7 @@ end
 - ActiveRecord migrations generator is used to generate data migration files
 - Data migrations are not reversible, it is operator's responsibility to ensure that data migration has correct effect
 - Keep migrations logic stable and predictable, e.g. by checking uniqueness of created/updated records
+- Task rows persist migration keyword arguments and active job metadata; pass record references instead of secrets or unnecessary personal data
 
 ## Contributing
 

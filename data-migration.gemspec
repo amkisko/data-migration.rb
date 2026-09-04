@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.email = ["contact@kiskolabs.com"]
   gem.homepage = "https://github.com/amkisko/data-migration.rb"
   gem.summary = "Data migrations kit for ActiveRecord and ActiveJob"
-  gem.description = gem.summary
+  gem.description = "Run and track data migrations through ActiveRecord tasks and ActiveJob workers."
   gem.metadata = {
     "homepage" => "https://github.com/amkisko/data-migration.rb",
     "source_code_uri" => "https://github.com/amkisko/data-migration.rb",
@@ -22,7 +22,9 @@ Gem::Specification.new do |gem|
     "rubygems_mfa_required" => "true"
   }
 
-  gem.files = `git ls-files`.split("\n")
+  gem.files = `git ls-files`.split("\n").select do |file|
+    root_files.include?(file) || file.start_with?("bin/", "lib/")
+  end
   gem.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
 
   gem.required_ruby_version = ">= 3.4"

@@ -44,6 +44,7 @@ describe DataMigration::Job do
       it "updates the task status to failed" do
         expect(DataMigration).to receive(:notify).with("#{migration_name} not found")
         expect { perform }.not_to raise_error
+        expect(task.reload.status).to eq("failed")
       end
     end
 
@@ -52,6 +53,8 @@ describe DataMigration::Job do
 
       it "raises an error" do
         expect { perform }.to raise_error("Data migration class #{migration_name.gsub(/^[0-9_]+/, "").camelize} not found")
+        expect(task.reload.status).to eq("failed")
+        expect(task.current_jobs).to be_empty
       end
     end
 
@@ -60,11 +63,39 @@ describe DataMigration::Job do
 
       it "raises an error" do
         expect { perform }.to raise_error("Data migration class #{migration_name.gsub(/^[0-9_]+/, "").camelize} must implement `perform` method")
+        expect(task.reload.status).to eq("failed")
+        expect(task.current_jobs).to be_empty
+      end
+    end
+
+    context "when migration execution fails after enqueueing another batch" do
+      let(:migration_name) { "20241206200115_fail_users" }
+
+      it "fails and checks out the job without leaking the enqueue request" do
+        expect { perform }.to raise_error("migration failed")
+        expect(task.reload.status).to eq("failed")
+        expect(task.current_jobs).to be_empty
+
+        job.perform(task.id, fail: false)
+        expect(task.reload.status).to eq("completed")
+      end
+    end
+
+    context "when the task pauses" do
+      before do
+        task.update!(pause_minutes: 1)
+      end
+
+      it "checks out the paused job" do
+        perform
+        expect(task.reload.status).to eq("paused")
+        expect(task.current_jobs).to be_empty
       end
     end
 
     context "when there is an enqueue call" do
       let(:migration_name) { "20241206200114_create_batch_users" }
+      let(:task) { DataMigration::Task.create!(name: migration_name, operator: operator, jobs_limit: 1) }
 
       it "runs the migration in foreground" do
         expect { perform }.to change(User, :count).by(3)
@@ -78,6 +109,7 @@ describe DataMigration::Job do
 
         before do
           operator
+          allow(DataMigration::Job).to receive(:perform_later)
         end
 
         it "runs the migration in background" do
@@ -85,16 +117,26 @@ describe DataMigration::Job do
           expect(task.reload.status).to eq("performing")
           expect(task.current_jobs.count).to eq(0)
           expect(task.kwargs).to eq({})
+          expect(DataMigration::Job).to have_received(:perform_later).with(task.id, index: 2, background: true)
 
           expect { job.perform(task.id, index: 2, background: true) }.to change(User, :count).by(1)
           expect(task.reload.status).to eq("performing")
           expect(task.reload.current_jobs.count).to eq(0)
           expect(task.kwargs).to eq({})
+          expect(DataMigration::Job).to have_received(:perform_later).with(task.id, index: 3, background: true)
 
           expect { job.perform(task.id, index: 3, background: true) }.not_to change(User, :count)
           expect(task.reload.status).to eq("completed")
           expect(task.reload.current_jobs.count).to eq(0)
           expect(task.kwargs).to eq({})
+        end
+
+        it "fails the task when scheduling the next batch fails" do
+          allow(DataMigration::Job).to receive(:perform_later).and_raise("queue unavailable")
+
+          expect { perform }.to raise_error("queue unavailable")
+          expect(task.reload.status).to eq("failed")
+          expect(task.current_jobs).to be_empty
         end
       end
     end

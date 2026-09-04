@@ -1,8 +1,12 @@
 # CHANGELOG
 
-## Unreleased
+## 2.0.0 (2026-09-04)
 
+- BREAKING: Require Ruby 3.4 or newer.
 - Add `rfcs/` starter pack: process (RFC 0001), positioning (RFC 0002), and Standards Track design RFCs 0003–0005 for task status, operator run path, and jobs.
+- Report stopped data migrations as failed and release their job slots (RFC 0006).
+- Serialize task job-slot updates across worker instances.
+- Limit the gem package to runtime code and release documentation.
 
 ## 1.3.0
 

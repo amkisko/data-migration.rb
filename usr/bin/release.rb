@@ -23,7 +23,7 @@ execute_command("POLYRUN_COVERAGE=1 bundle exec polyrun parallel-rspec --workers
 
 puts "Tests passed. Checking git status..."
 
-git_status = `git diff --shortstat 2>/dev/null`.strip
+git_status = `git status --porcelain --untracked-files=all 2>/dev/null`.strip
 unless git_status.empty?
   puts "\033[1;31mgit working directory not clean, please commit your changes first \033[0m"
   puts "\033[1;33mNote: rubocop -a may have modified files. Review and commit changes before releasing.\033[0m"

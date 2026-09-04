@@ -7,6 +7,10 @@ module DataMigration
     discard_on StandardError
 
     def perform(task_id, *job_args, **job_kwargs)
+      checked_in = false
+      failed = false
+      migration_started = false
+      migration_class = nil
       task = DataMigration::Task.find(task_id)
       DataMigration.config.monitoring_context.call(task)
 
@@ -15,16 +19,19 @@ module DataMigration
 
       unless task.file_exists?
         DataMigration.notify("#{migration_name} not found")
+        task.update_columns(status: task.class.statuses.fetch("failed"), updated_at: Time.current)
         return
       end
 
       task.job_check_in!(job_id, job_args: job_args, job_kwargs: job_kwargs)
+      checked_in = true
+      migration_started = true
 
       require migration_path
       klass_name = migration_name.gsub(/^[0-9_]+/, "").camelize
-      klass = klass_name.safe_constantize
-      raise "Data migration class #{klass_name} not found" unless klass.is_a?(Class)
-      raise "Data migration class #{klass_name} must implement `perform` method" unless klass.method_defined?(:perform)
+      migration_class = klass_name.safe_constantize
+      raise "Data migration class #{klass_name} not found" unless migration_class.is_a?(Class)
+      raise "Data migration class #{klass_name} must implement `perform` method" unless migration_class.method_defined?(:perform)
 
       if task.started_at.blank?
         task.update!(started_at: Time.current, status: :started)
@@ -38,17 +45,18 @@ module DataMigration
 
       Thread.current[:data_migration_enqueue_called] ||= {}
       Thread.current[:data_migration_enqueue_kwargs] ||= {}
-      klass.define_method(:enqueue) do |**enqueue_kwargs|
-        Thread.current[:data_migration_enqueue_called][klass.name] = true
-        Thread.current[:data_migration_enqueue_kwargs][klass.name] = enqueue_kwargs
+      migration_class.define_method(:enqueue) do |**enqueue_kwargs|
+        Thread.current[:data_migration_enqueue_called][migration_class.name] = true
+        Thread.current[:data_migration_enqueue_kwargs][migration_class.name] = enqueue_kwargs
       end
 
       task.update!(status: :performing, pause_minutes: 0)
-      klass.new.perform(**job_kwargs)
+      migration_class.new.perform(**job_kwargs)
       task.job_check_out!(job_id)
+      checked_in = false
 
-      enqueue_called = Thread.current[:data_migration_enqueue_called].delete(klass.name)
-      enqueue_kwargs = Thread.current[:data_migration_enqueue_kwargs].delete(klass.name)
+      enqueue_called = Thread.current[:data_migration_enqueue_called].delete(migration_class.name)
+      enqueue_kwargs = Thread.current[:data_migration_enqueue_kwargs].delete(migration_class.name)
       if enqueue_called
         if enqueue_kwargs[:background] == false
           self.class.new.perform(task_id, *job_args, **enqueue_kwargs)
@@ -57,6 +65,16 @@ module DataMigration
         end
       else
         task.update!(completed_at: Time.current, status: :completed)
+      end
+    rescue
+      failed = migration_started
+      raise
+    ensure
+      task.job_check_out!(job_id, status: (failed ? :failed : nil)) if checked_in
+      task.update_columns(status: task.class.statuses.fetch("failed"), updated_at: Time.current) if failed && !checked_in
+      if migration_class
+        Thread.current[:data_migration_enqueue_called]&.delete(migration_class.name)
+        Thread.current[:data_migration_enqueue_kwargs]&.delete(migration_class.name)
       end
     end
   end

@@ -14,6 +14,7 @@
 /coverage/*
 
 /spec/examples.txt
+/spec/spec_paths.txt
 /tmp/*
 
 .DS_Store

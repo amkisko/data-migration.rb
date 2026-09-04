@@ -24,6 +24,22 @@ describe DataMigration do
     expect(File.exist?(readme_file)).to be true
   end
 
+  it "packages runtime code and release documentation without development files" do
+    expect(gem_specification.files).to include(
+      "CHANGELOG.md",
+      "LICENSE.md",
+      "README.md",
+      "data-migration.gemspec",
+      "lib/data-migration.rb",
+      "lib/data_migration/job.rb"
+    )
+    expect(gem_specification.files).not_to include(
+      ".agents/project.md",
+      "Gemfile.lock",
+      "spec/spec_helper.rb"
+    )
+  end
+
   describe ".notify" do
     subject(:notify) { DataMigration.notify("test") }
 

@@ -5,11 +5,11 @@
 - Status: Stable
 - Created: 2026-08-18
 - Author: Andrei Makarov
-- Relates: RFC 0002, RFC 0005
+- Relates: RFC 0002, RFC 0005, RFC 0006
 
 ## Summary
 
-`DataMigration::Task` records operator-owned data migration progress. Status values are `started`, `performing`, `paused`, and `completed`. Table name is `data_migration_tasks`.
+`DataMigration::Task` records operator-owned data migration progress. Status values are `started`, `performing`, `paused`, `failed`, and `completed`. Table name is `data_migration_tasks`.
 
 ## Motivation
 
@@ -21,15 +21,15 @@ A one-shot rake task without Task rows runs, then leaves no recorded status for 
 
 ## Reference-level explanation
 
-Status strings: `started`, `performing`, `paused`, `completed`. `requires_pause?` is true when `pause_minutes` is positive and status is not paused. Job transitions that move these statuses are RFC 0005.
+Status strings: `started`, `performing`, `paused`, `failed`, `completed`. `requires_pause?` is true when `pause_minutes` is positive and status is not paused. Job transitions are RFC 0005. Failure transitions and cleanup are RFC 0006.
 
 ## Registrar
 
-Status names: `started`, `performing`, `paused`, `completed`. Table: `data_migration_tasks`.
+Status names: `started`, `performing`, `paused`, `failed`, `completed`. RFC 0006 added `failed`. Table: `data_migration_tasks`.
 
 ## Drawbacks
 
-Every run writes a row. Operators must interpret paused versus completed. Enum growth is a later RFC.
+Every run writes a row. Operators must interpret paused, failed, and completed. Enum growth requires another RFC.
 
 ## Rationale and alternatives
 

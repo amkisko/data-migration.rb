@@ -112,6 +112,16 @@ describe DataMigration::Task do
       expect { job_check_in! }.to change { task.current_jobs.size }.by(1)
     end
 
+    it "preserves jobs checked in through separate task instances" do
+      first_task = described_class.find(task.id)
+      second_task = described_class.find(task.id)
+
+      first_task.job_check_in!("first")
+      second_task.job_check_in!("second")
+
+      expect(task.reload.current_jobs.keys).to contain_exactly("first", "second")
+    end
+
     context "when there is a job with the same id" do
       before do
         task.job_check_in!(job_id, job_args: ["foo"], job_kwargs: {bar: "baz"})
@@ -124,7 +134,7 @@ describe DataMigration::Task do
 
     context "when default_jobs_limit is 1 and there are jobs" do
       before do
-        DataMigration.config.default_jobs_limit = 1
+        allow(DataMigration.config).to receive(:default_jobs_limit).and_return(1)
         task.job_check_in!("321", job_args: ["foo"], job_kwargs: {bar: "baz"})
       end
 
@@ -147,6 +157,30 @@ describe DataMigration::Task do
     it "removes the job from the current_jobs hash" do
       expect { job_check_out! }.to change { task.current_jobs.size }.by(-1)
       expect(task.current_jobs).not_to have_key(job_id)
+    end
+
+    it "preserves jobs checked in through another task instance" do
+      other_task = described_class.find(task.id)
+      other_task.job_check_in!("other")
+
+      job_check_out!
+
+      expect(task.reload.current_jobs.keys).to contain_exactly("other")
+    end
+
+    it "checks out the job when the migration file is no longer valid" do
+      checking_out_task = described_class.find(task.id)
+      allow(checking_out_task).to receive(:file_exists?).and_return(false)
+
+      expect { checking_out_task.job_check_out!(job_id) }.not_to raise_error
+      expect(task.reload.current_jobs).to be_empty
+    end
+
+    it "updates the final status with the checkout" do
+      task.job_check_out!(job_id, status: :failed)
+
+      expect(task.reload.status).to eq("failed")
+      expect(task.current_jobs).to be_empty
     end
   end
 end
