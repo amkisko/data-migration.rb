@@ -24,4 +24,4 @@
 *.local
 *.gem
 
-.pray/cache
+.pray
