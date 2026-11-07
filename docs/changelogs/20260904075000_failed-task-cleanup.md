@@ -1,5 +1,9 @@
 # Failed task cleanup
 
+## Participants
+
+Andrei Makarov (@amkisko)
+
 ## Decisions
 
 - Add failed as a terminal task status.
