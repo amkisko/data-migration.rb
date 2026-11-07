@@ -3,7 +3,7 @@ require "data_migration/job"
 require "data_migration/task"
 
 module DataMigration
-  VERSION = "2.0.0".freeze
+  VERSION = "2.0.1".freeze
 
   module_function
 
