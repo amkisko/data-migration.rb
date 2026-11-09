@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Ship `bin/rails db:migrate:data` with `VERSION=` / `NAME=` selection and a migration list when both are blank.
+- Keep the data migration operator on the task when enqueueing and in monitoring context.
+- Report failed data migration job exceptions to ActiveJob hosts instead of discarding them.
 
 ## 2.0.1 (2026-10-28)
 

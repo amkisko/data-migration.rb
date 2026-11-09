@@ -54,25 +54,27 @@ module DataMigration
     end
 
     def self.perform_now(name, **kwargs)
-      create!(name: name).perform_now(**kwargs)
+      create_with_operator!(name, **kwargs).perform_now(**kwargs)
     end
 
     def perform_now(**perform_args)
-      update!(kwargs: perform_args)
-      self.class.job_class.perform_now(id, **perform_args)
+      job_kwargs = assign_operator_from!(perform_args)
+      update!(kwargs: job_kwargs)
+      self.class.job_class.perform_now(id, **job_kwargs)
     end
 
     def self.perform_later(name, **kwargs)
-      create!(name: name).perform_later(**kwargs)
+      create_with_operator!(name, **kwargs).perform_later(**kwargs)
     end
 
     def perform_later(**perform_args)
-      update!(kwargs: perform_args)
-      self.class.job_class.perform_later(id, **perform_args)
+      job_kwargs = assign_operator_from!(perform_args)
+      update!(kwargs: job_kwargs)
+      self.class.job_class.perform_later(id, **job_kwargs)
     end
 
-    def self.prepare(name, pause_minutes: nil, jobs_limit: nil)
-      create!(name: name, pause_minutes: pause_minutes, jobs_limit: jobs_limit)
+    def self.prepare(name, pause_minutes: nil, jobs_limit: nil, operator: nil)
+      create!(name: name, pause_minutes: pause_minutes, jobs_limit: jobs_limit, operator: operator)
     end
 
     def self.root_path
@@ -128,6 +130,23 @@ module DataMigration
     end
 
     private
+
+    def self.create_with_operator!(name, **kwargs)
+      attributes = {name: name}
+      attributes[:operator] = kwargs[:operator] if kwargs.key?(:operator)
+      create!(**attributes)
+    end
+    private_class_method :create_with_operator!
+
+    def assign_operator_from!(perform_args)
+      job_kwargs = perform_args.dup
+      if job_kwargs.key?(:operator)
+        self.operator = job_kwargs.delete(:operator)
+      else
+        self.operator ||= DataMigration.config.operator_resolver.call
+      end
+      job_kwargs
+    end
 
     def file_should_exist
       errors.add(:name, "is not found") unless file_exists?

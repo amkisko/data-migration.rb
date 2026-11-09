@@ -80,6 +80,43 @@ describe DataMigration::Task do
       expect(DataMigration::Job).to receive(:perform_later).with(task.id, **kwargs)
       task.perform_later(**kwargs)
     end
+
+    it "stores an explicit operator on the task before enqueueing" do
+      operator = User.create!(email: "operator@example.com")
+      expect(DataMigration::Job).to receive(:perform_later).with(task.id, foo: "bar")
+
+      task.perform_later(foo: "bar", operator: operator)
+
+      expect(task.reload.operator).to eq(operator)
+      expect(task.kwargs).to eq("foo" => "bar")
+    end
+
+    it "resolves the operator before enqueueing when none is given" do
+      operator = User.create!(email: "resolver@example.com")
+      bare_task = DataMigration::Task.create!(name: migration_name)
+      bare_task.update_columns(operator_id: nil, operator_type: nil)
+      allow(DataMigration.config).to receive(:operator_resolver).and_return(-> { operator })
+      expect(DataMigration::Job).to receive(:perform_later).with(bare_task.id)
+
+      bare_task.perform_later
+
+      expect(bare_task.reload.operator).to eq(operator)
+    end
+  end
+
+  describe ".perform_later" do
+    it "assigns kwargs operator onto the created task" do
+      operator = User.create!(email: "enqueue@example.com")
+      expect(DataMigration::Job).to receive(:perform_later)
+
+      expect {
+        described_class.perform_later(migration_name, operator: operator, foo: "bar")
+      }.to change(described_class, :count).by(1)
+
+      created = described_class.order(:id).last
+      expect(created.operator).to eq(operator)
+      expect(created.kwargs).to eq("foo" => "bar")
+    end
   end
 
   describe "#prepare" do

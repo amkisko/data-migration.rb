@@ -56,6 +56,13 @@ describe DataMigration::Job do
         expect(task.reload.status).to eq("failed")
         expect(task.current_jobs).to be_empty
       end
+
+      it "surfaces the error through ActiveJob.perform_now for host reporters" do
+        expect {
+          described_class.perform_now(task.id)
+        }.to raise_error(RuntimeError, "Data migration class #{migration_name.gsub(/^[0-9_]+/, "").camelize} not found")
+        expect(task.reload.status).to eq("failed")
+      end
     end
 
     context "when migration class does not implement perform method" do

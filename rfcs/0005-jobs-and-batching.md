@@ -33,7 +33,7 @@ Methods: `job_check_in!`, `job_check_out!`, `enqueue`. Errors: `JobConcurrencyLi
 
 ## Drawbacks
 
-Hosts must structure `perform` as batches that call `enqueue`. Pause waits are wall-clock, not load-based. Discarding on `StandardError` needs monitoring.
+Hosts must structure `perform` as batches that call `enqueue`. Pause waits are wall-clock, not load-based. Raised `StandardError` failures stay visible to ActiveJob reporters after the task is marked failed (RFC 0006).
 
 ## Rationale and alternatives
 
