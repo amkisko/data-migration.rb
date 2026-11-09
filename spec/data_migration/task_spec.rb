@@ -74,6 +74,32 @@ describe DataMigration::Task do
     end
   end
 
+  describe ".perform_now" do
+    it "creates a task and runs it immediately" do
+      expect(DataMigration::Job).to receive(:perform_now)
+
+      created = nil
+      expect {
+        described_class.perform_now(migration_name, foo: "bar")
+        created = described_class.order(:id).last
+      }.to change(described_class, :count).by(1)
+
+      expect(created.name).to eq(migration_name)
+      expect(created.kwargs).to eq("foo" => "bar")
+    end
+  end
+
+  describe "#not_started?" do
+    it "is true before status or started_at are set" do
+      expect(task.not_started?).to be(true)
+    end
+
+    it "is false after the task has started" do
+      task.update_columns(started_at: Time.current, status: "started")
+      expect(task.reload.not_started?).to be(false)
+    end
+  end
+
   describe "#perform_later" do
     it "calls the job class with the task and arguments" do
       kwargs = {foo: "bar"}

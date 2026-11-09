@@ -2,10 +2,11 @@ require "data_migration/config"
 require "data_migration/job"
 require "data_migration/task"
 require "data_migration/selector"
+require "data_migration/cli"
 require "data_migration/railtie" if defined?(Rails::Railtie)
 
 module DataMigration
-  VERSION = "2.0.1".freeze
+  VERSION = "2.1.0".freeze
 
   module_function
 
@@ -14,7 +15,7 @@ module DataMigration
   end
 
   def configure
-    yield config
+    yield(config)
   end
 
   def notify(message, context: {})

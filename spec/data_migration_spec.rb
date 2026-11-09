@@ -32,6 +32,7 @@ describe DataMigration do
       "data-migration.gemspec",
       "lib/data-migration.rb",
       "lib/data_migration/job.rb",
+      "lib/data_migration/cli.rb",
       "lib/data_migration/railtie.rb",
       "lib/data_migration/tasks/data_migration.rake"
     )
@@ -40,6 +41,14 @@ describe DataMigration do
       "Gemfile.lock",
       "spec/spec_helper.rb"
     )
+  end
+
+  describe ".configure" do
+    it "yields the shared config" do
+      DataMigration.configure do |config|
+        expect(config).to eq(DataMigration.config)
+      end
+    end
   end
 
   describe ".notify" do
