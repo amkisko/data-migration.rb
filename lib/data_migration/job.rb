@@ -4,8 +4,6 @@ module DataMigration
   class Job < ActiveJob::Base
     queue_as { DataMigration.config.job_queue_name }
 
-    discard_on StandardError
-
     def perform(task_id, *job_args, **job_kwargs)
       checked_in = false
       failed = false

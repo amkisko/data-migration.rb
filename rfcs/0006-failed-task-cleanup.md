@@ -29,7 +29,7 @@ The task status registrar includes `failed`.
 
 When the migration file is unavailable, the job notifies the configured destination and writes `failed`.
 
-After `job_check_in!` succeeds, a `StandardError` raised while loading, validating, executing, or completing the migration writes `failed` and continues raising. ActiveJob then applies the configured `discard_on StandardError` behavior. An error raised before check-in does not replace the status of another active job.
+After `job_check_in!` succeeds, a `StandardError` raised while loading, validating, executing, or completing the migration writes `failed` and continues raising so ActiveJob adapters and host reporters (for example Sentry) receive the exception. An error raised before check-in does not replace the status of another active job.
 
 Every successful check-in has one checkout on success, pause, or exception. Successful migration execution checks out before starting or enqueueing a continuation, so `jobs_limit: 1` supports foreground batching.
 
