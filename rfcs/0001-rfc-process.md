@@ -15,7 +15,7 @@ This RFC defines how data-migration design changes are proposed, written, number
 
 ## Motivation
 
-Generators, `db:migrate:data`, the tasks table, Task status names, and job concurrency limits are the public contract. Operators keep runbooks and in-flight rows against those names. Numbered RFCs are the unit for a change that would move the gem version during an operator-owned rewrite. RFC 0002 records why data rewrites stay off the schema migrate path.
+Generators, `db:migrate:data VERSION=` / `NAME=`, the tasks table, Task status names, and job concurrency limits are the public contract. Operators keep runbooks and in-flight rows against those names. Numbered RFCs are the unit for a change that would move the gem version during an operator-owned rewrite. RFC 0002 records why data rewrites stay off the schema migrate path.
 
 ## Guide-level explanation
 

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Unreleased
+
+- Ship `bin/rails db:migrate:data` with `VERSION=` / `NAME=` selection and a migration list when both are blank.
+
+## 2.0.1 (2026-10-28)
+
+- Confirm gem release from a clean tree before tagging.
+
 ## 2.0.0 (2026-09-04)
 
 - BREAKING: Require Ruby 3.4 or newer.

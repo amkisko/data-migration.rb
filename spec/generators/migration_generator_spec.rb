@@ -32,6 +32,8 @@ describe DataMigrationGenerator, type: :generator do
     expect(migration_content).to include("class CreateUsers")
     expect(migration_content).to include("def perform(**kwargs)")
     expect(migration_content).to include("RSpec.describe CreateUsers, type: :data_migration do")
+    expect(migration_content.any? { |line| line.include?("bin/rails db:migrate:data VERSION=") }).to be(true)
+    expect(migration_content.any? { |line| line.match?(/db:migrate:data \d+_/) }).to be(false)
   end
 
   context "when generate_spec is false" do

@@ -64,8 +64,10 @@ bin/rails g data_migration create_users
 ### Run data migrations
 
 ```sh
-bin/rails db:migrate:data 20241207120000_create_users
+bin/rails db:migrate:data VERSION=20241207120000
 ```
+
+`VERSION` may be the timestamp or the full `timestamp_name` file stem. `NAME=create_users` also works. With neither set, the task lists available migrations and their latest task status.
 
 ## Configuration
 
@@ -104,7 +106,7 @@ end
 - [x] User can generate data migration file under `db/data_migrations` directory with common format
 - [x] User can generate data migration file with test script included
 - [x] User can run specific data migration using Rails console
-- [ ] User can run specific data migration using shell command
+- [x] User can run specific data migration using shell command
 - [x] User can run data migration in background
 - [x] User can run data migration in foreground
 - [x] User can specify operator for data migration

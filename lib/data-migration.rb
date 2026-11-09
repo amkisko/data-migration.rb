@@ -1,6 +1,8 @@
 require "data_migration/config"
 require "data_migration/job"
 require "data_migration/task"
+require "data_migration/selector"
+require "data_migration/railtie" if defined?(Rails::Railtie)
 
 module DataMigration
   VERSION = "2.0.1".freeze
