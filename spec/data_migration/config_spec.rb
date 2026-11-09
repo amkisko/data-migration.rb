@@ -86,6 +86,19 @@ describe DataMigration::Config do
     expect { config.monitoring_context.call(migration) }.not_to raise_error
   end
 
+  it "accepts a custom operator resolver block" do
+    user = User.new(id: 9)
+    config.operator_resolver { user }
+    expect(config.operator_resolver.call).to eq(user)
+  end
+
+  it "accepts a custom monitoring context block" do
+    seen = nil
+    config.monitoring_context { |migration_arg| seen = migration_arg }
+    config.monitoring_context.call(migration)
+    expect(seen).to eq(migration)
+  end
+
   context "when ActionReporter is defined" do
     before do
       stub_const("ActionReporter", action_reporter)
@@ -107,6 +120,11 @@ describe DataMigration::Config do
       allow(ActionReporter).to receive(:context)
       config.monitoring_context.call(migration)
     end
+
+    it "resolves the operator from ActionReporter by default" do
+      allow(ActionReporter).to receive(:current_user).and_return(current_user)
+      expect(config.operator_resolver.call).to eq(current_user)
+    end
   end
 
   context "when Audited is defined" do
@@ -119,6 +137,10 @@ describe DataMigration::Config do
       expect(Audited).to receive(:store).and_return(store)
       expect { config.monitoring_context.call(migration) }.not_to raise_error
       expect(store[:audited_user]).to eq(other_user)
+    end
+
+    it "resolves the operator from Audited by default" do
+      expect(config.operator_resolver.call.id).to eq(4)
     end
   end
 end

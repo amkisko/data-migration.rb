@@ -43,13 +43,14 @@ module DataMigration
 
       Thread.current[:data_migration_enqueue_called] ||= {}
       Thread.current[:data_migration_enqueue_kwargs] ||= {}
-      migration_class.define_method(:enqueue) do |**enqueue_kwargs|
+      migration = migration_class.new
+      migration.define_singleton_method(:enqueue) do |**enqueue_kwargs|
         Thread.current[:data_migration_enqueue_called][migration_class.name] = true
         Thread.current[:data_migration_enqueue_kwargs][migration_class.name] = enqueue_kwargs
       end
 
       task.update!(status: :performing, pause_minutes: 0)
-      migration_class.new.perform(**job_kwargs)
+      migration.perform(**job_kwargs)
       task.job_check_out!(job_id)
       checked_in = false
 

@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## Unreleased
+## 2.1.0 (2026-11-09)
 
 - Ship `bin/rails db:migrate:data` with `VERSION=` / `NAME=` selection and a migration list when both are blank.
 - Keep the data migration operator on the task when enqueueing and in monitoring context.
 - Report failed data migration job exceptions to ActiveJob hosts instead of discarding them.
+- Reach full line coverage of packaged `lib/` and bind a local pressure probe with ceilings.
 
 ## 2.0.1 (2026-10-28)
 

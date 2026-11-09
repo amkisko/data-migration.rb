@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    data-migration (2.0.1)
+    data-migration (2.1.0)
       activejob (> 5)
       activerecord (> 5)
       activesupport (> 5)
