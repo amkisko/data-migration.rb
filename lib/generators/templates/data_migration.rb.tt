@@ -1,8 +1,8 @@
 # USAGE: within remote console run one of the following commands
-# - rails db:migrate:data <%= migration_number %>_<%= migration_file_name %>
+# - bin/rails db:migrate:data VERSION=<%= migration_number %>
 # - DataMigration.perform_now("<%= migration_number %>_<%= migration_file_name %>")
 # - DataMigration.perform_later("<%= migration_number %>_<%= migration_file_name %>")
-# - DataMigration.prepare("<%= migration_number %>_<%= migration_file_name %>", pause: 1.minute, jobs_limit: 2).perform_later
+# - DataMigration.prepare("<%= migration_number %>_<%= migration_file_name %>", pause_minutes: 1, jobs_limit: 2).perform_later
 
 class <%= migration_class_name %>
   def perform(**kwargs)

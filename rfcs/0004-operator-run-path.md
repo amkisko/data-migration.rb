@@ -9,7 +9,7 @@
 
 ## Summary
 
-Operators generate data migrations under `db/data_migrations` and run them with `bin/rails db:migrate:data`. Data migrations are not reversible and may be applied more than once. README tells operators to avoid implementing data migrations within schema migrations; that Avoid is guidance, not a MUST in this RFC.
+Operators generate data migrations under `db/data_migrations` and run them with `bin/rails db:migrate:data VERSION=<timestamp>`. Data migrations are not reversible and may be applied more than once. README tells operators to avoid implementing data migrations within schema migrations; that Avoid is guidance, not a MUST in this RFC.
 
 ## Motivation
 
@@ -17,7 +17,7 @@ A `db/migrate` file that rewrites millions of rows deploys with the schema, wrap
 
 ## Guide-level explanation
 
-Install the gem. Generate the tasks table with `bin/rails g data_migration:install`. Generate a migration with `bin/rails g data_migration create_users`. Run with `bin/rails db:migrate:data 20241207120000_create_users`. Point `DataMigration.config.data_migrations_path` at another directory when the host does not use `db/data_migrations`.
+Install the gem. Generate the tasks table with `bin/rails g data_migration:install`. Generate a migration with `bin/rails g data_migration create_users`. Run with `bin/rails db:migrate:data VERSION=20241207120000`. `NAME=` may select by file stem suffix. With neither set, the task lists migrations and latest task status. Point `DataMigration.config.data_migrations_path` at another directory when the host does not use `db/data_migrations`.
 
 Planning, operator control, batching, tests for critical migrations, and a fresh backup before those runs stay on the operator.
 
@@ -27,7 +27,7 @@ Task rows validate that the migration file exists. The class name is derived fro
 
 ## Registrar
 
-Commands: `bin/rails g data_migration`, `bin/rails g data_migration:install`, `bin/rails db:migrate:data`. Default path: `db/data_migrations`.
+Commands: `bin/rails g data_migration`, `bin/rails g data_migration:install`, `bin/rails db:migrate:data VERSION=` / `NAME=`. Default path: `db/data_migrations`. Gem Railtie loads the rake task.
 
 ## Drawbacks
 

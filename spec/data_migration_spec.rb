@@ -31,7 +31,9 @@ describe DataMigration do
       "README.md",
       "data-migration.gemspec",
       "lib/data-migration.rb",
-      "lib/data_migration/job.rb"
+      "lib/data_migration/job.rb",
+      "lib/data_migration/railtie.rb",
+      "lib/data_migration/tasks/data_migration.rake"
     )
     expect(gem_specification.files).not_to include(
       ".agents/project.md",

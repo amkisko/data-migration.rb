@@ -22,7 +22,7 @@ The public contract is the generator (`bin/rails g data_migration`), the rake en
 
 ## Guide-level explanation
 
-Install the gem. Generate the tasks table. Generate a migration with `bin/rails g data_migration create_users`. Run it with `bin/rails db:migrate:data 20241207120000_create_users`. Point `DataMigration.config.data_migrations_path` at `db/data_migrations` when the host uses another directory. Use ActiveJob for batches.
+Install the gem. Generate the tasks table. Generate a migration with `bin/rails g data_migration create_users`. Run it with `bin/rails db:migrate:data VERSION=20241207120000`. Point `DataMigration.config.data_migrations_path` at `db/data_migrations` when the host uses another directory. Use ActiveJob for batches.
 
 ## Drawbacks
 
