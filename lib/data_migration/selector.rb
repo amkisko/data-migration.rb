@@ -24,8 +24,7 @@ module DataMigration
     def resolve
       raise NotFound, "VERSION or NAME is required" if @version.nil? && @name.nil?
 
-      available = DataMigration::Task.list
-      matches = available.select { |migration_name| match?(migration_name) }
+      matches = matching_migrations
       raise NotFound, "No data migration matches VERSION=#{@version.inspect} NAME=#{@name.inspect}" if matches.empty?
       raise Ambiguous, "Multiple data migrations match: #{matches.join(", ")}" if matches.size > 1
 
@@ -33,6 +32,10 @@ module DataMigration
     end
 
     private
+
+    def matching_migrations
+      DataMigration::Task.list.select { |migration_name| match?(migration_name) }
+    end
 
     def match?(migration_name)
       return migration_name == @version || migration_name.start_with?("#{@version}_") if @version && @name.nil?
