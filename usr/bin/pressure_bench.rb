@@ -83,14 +83,20 @@ end
 
 def calibrate!
   results = []
-  results << time_stage("calibrate_resolve") { sleep 0.01; DataMigration::Selector.resolve(version: "20241206200111") }
+  results << time_stage("calibrate_resolve") do
+    sleep 0.01
+    DataMigration::Selector.resolve(version: "20241206200111")
+  end
   results << time_stage("calibrate_perform") do
     sleep 0.02
     task = DataMigration::Task.create!(name: "20241206200111_create_users")
     DataMigration::Job.perform_now(task.id, background: false)
   end
-  results << time_stage("calibrate_checkout") { sleep 0.03; DataMigration::Task.list }
-  walls = results.map { |r| r[:wall_ms] }
+  results << time_stage("calibrate_checkout") do
+    sleep 0.03
+    DataMigration::Task.list
+  end
+  walls = results.pluck(:wall_ms)
   raise "calibrate failed: stages not distinct #{walls.inspect}" unless walls.uniq.size == walls.size
   results
 end
@@ -131,13 +137,13 @@ end
 
 def summarize(samples)
   {
-    resolve_p95_us: median(samples.map { |s| s[:resolve_p95_us] }),
-    resolve_p95_us_max: samples.map { |s| s[:resolve_p95_us] }.max,
-    perform_wall_ms: median(samples.map { |s| s[:perform_wall_ms] }),
-    perform_wall_ms_max: samples.map { |s| s[:perform_wall_ms] }.max,
-    cpu_ms: median(samples.map { |s| s[:cpu_ms] }),
-    rss_bytes: median(samples.map { |s| s[:rss_bytes] }),
-    storage_bytes: median(samples.map { |s| s[:storage_bytes] }),
+    resolve_p95_us: median(samples.pluck(:resolve_p95_us)),
+    resolve_p95_us_max: samples.pluck(:resolve_p95_us).max,
+    perform_wall_ms: median(samples.pluck(:perform_wall_ms)),
+    perform_wall_ms_max: samples.pluck(:perform_wall_ms).max,
+    cpu_ms: median(samples.pluck(:cpu_ms)),
+    rss_bytes: median(samples.pluck(:rss_bytes)),
+    storage_bytes: median(samples.pluck(:storage_bytes)),
     network: "not_in_scope"
   }
 end

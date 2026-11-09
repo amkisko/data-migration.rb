@@ -126,6 +126,7 @@ ThreadSafety/ClassInstanceVariable:
 ThreadSafety/DirChdir:
   Exclude:
     - "*.gemspec"
+    - usr/bin/**/*
 
 Rails/ApplicationRecord:
   Enabled: false
@@ -147,6 +148,7 @@ Rails/Output:
   Exclude:
     - usr/**/*
     - lib/generators/**/*
+    - lib/data_migration/cli.rb
 
 Rails/FindEach:
   Enabled: true
@@ -189,3 +191,4 @@ Metrics/AbcSize:
   Exclude:
     - lib/data_migration/config.rb
     - lib/data_migration/job.rb
+    - usr/bin/**/*
