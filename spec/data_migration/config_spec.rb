@@ -97,9 +97,15 @@ describe DataMigration::Config do
         data_migration_id: 1,
         data_migration_operator_id: 2
       )
-      expect(ActionReporter).to receive(:current_user).and_return(nil)
       expect(ActionReporter).to receive(:current_user=).with(other_user)
       expect { config.monitoring_context.call(migration) }.not_to raise_error
+    end
+
+    it "overwrites an ambient current user with the task operator" do
+      allow(ActionReporter).to receive(:current_user).and_return(current_user)
+      expect(ActionReporter).to receive(:current_user=).with(other_user)
+      allow(ActionReporter).to receive(:context)
+      config.monitoring_context.call(migration)
     end
   end
 
@@ -109,8 +115,10 @@ describe DataMigration::Config do
     end
 
     it "sets monitoring context" do
-      expect(Audited).to receive(:store).and_return(audited_user: User.new(id: 5))
+      store = {audited_user: User.new(id: 5)}
+      expect(Audited).to receive(:store).and_return(store)
       expect { config.monitoring_context.call(migration) }.not_to raise_error
+      expect(store[:audited_user]).to eq(other_user)
     end
   end
 end

@@ -60,10 +60,10 @@ module DataMigration
             data_migration_operator_id: migration.operator&.try(:to_global_id) || migration.operator&.id
           }
           if Object.const_defined?(:ActionReporter)
-            ActionReporter.current_user ||= migration.operator
+            ActionReporter.current_user = migration.operator if migration.operator
             ActionReporter.context(**context)
           elsif Object.const_defined?(:Audited)
-            Audited.store[:audited_user] ||= migration.operator
+            Audited.store[:audited_user] = migration.operator if migration.operator
           else
             Rails.logger.info("Data migration context: #{context.inspect}")
           end
